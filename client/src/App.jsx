@@ -4,8 +4,9 @@ import Dashboard from './pages/Dashboard';
 import Inventory from './pages/Inventory';
 import Staffing from './pages/Staffing';
 import Predictions from './pages/Predictions';
+import BusinessModel from './pages/BusinessModel';
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Routes>
@@ -13,9 +14,10 @@ function App() {
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/staffing" element={<Staffing />} />
         <Route path="/predictions" element={<Predictions />} />
+        <Route path="/business-model" element={<BusinessModel />} />
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
