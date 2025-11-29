@@ -2,24 +2,35 @@ const express = require('express');
 const router = express.Router();
 const Inventory = require('../models/Inventory');
 
-// GET all inventory
+// GET /api/inventory
+// Fetch all inventory items from the database
 router.get('/', async (req, res) => {
     try {
         const items = await Inventory.find();
         res.json(items);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        // Log the error for debugging
+        console.error("Error fetching inventory:", err);
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 
-// POST new item
+// POST /api/inventory
+// Add a new item to the inventory
 router.post('/', async (req, res) => {
-    const item = new Inventory(req.body);
+    // Basic validation: check if required fields are present
+    const { itemName, quantity } = req.body;
+    if (!itemName || !quantity) {
+        return res.status(400).json({ message: 'Item name and quantity are required' });
+    }
+
+    const newItem = new Inventory(req.body);
     try {
-        const newItem = await item.save();
-        res.status(201).json(newItem);
+        const savedItem = await newItem.save();
+        res.status(201).json(savedItem);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        console.error("Error adding inventory:", err);
+        res.status(400).json({ message: 'Failed to add item' });
     }
 });
 

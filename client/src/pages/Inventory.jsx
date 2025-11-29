@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout';
-import axios from 'axios';
 
 const Inventory = () => {
     const [items, setItems] = useState([]);
 
     useEffect(() => {
-        // Mock Data
+        // Mock Inventory Data
+        // In the future, this will come from the backend API.
         setItems([
-            { _id: '1', itemName: 'Oxygen Cylinders', category: 'Equipment', quantity: 45, unit: 'units', threshold: 50 },
-            { _id: '2', itemName: 'Paracetamol', category: 'Medicine', quantity: 5000, unit: 'strips', threshold: 1000 },
-            { _id: '3', itemName: 'N95 Masks', category: 'Supplies', quantity: 2000, unit: 'units', threshold: 500 },
-            { _id: '4', itemName: 'Burn Kits', category: 'Supplies', quantity: 80, unit: 'kits', threshold: 100 },
-            { _id: '5', itemName: 'Inhalers', category: 'Medicine', quantity: 400, unit: 'units', threshold: 100 },
-            { _id: '6', itemName: 'IV Fluids', category: 'Medicine', quantity: 120, unit: 'bottles', threshold: 150 }
+            { _id: '1', itemName: 'Oxygen Cylinders', category: 'Equipment', quantity: 45, unit: 'units', threshold: 10 },
+            { _id: '2', itemName: 'Paracetamol 500mg', category: 'Medicine', quantity: 500, unit: 'strips', threshold: 100 },
+            { _id: '3', itemName: 'N95 Masks', category: 'PPE', quantity: 1200, unit: 'pieces', threshold: 200 },
+            { _id: '4', itemName: 'Saline Bottles', category: 'Medicine', quantity: 8, unit: 'bottles', threshold: 20 }, // Low Stock Example
+            { _id: '5', itemName: 'Burn Kits', category: 'Supplies', quantity: 5, unit: 'kits', threshold: 15 } // Critical Low Stock
         ]);
     }, []);
 
     return (
         <Layout>
-            <h1 className="text-2xl font-bold mb-6">Inventory Management</h1>
-            <div className="bg-white shadow rounded-lg overflow-hidden">
+            <div className="flex justify-between items-center mb-6">
+                <h1 className="text-2xl font-bold text-gray-800">Inventory Management</h1>
+                <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                    + Add New Item
+                </button>
+            </div>
+
+            <div className="bg-white shadow-md rounded-lg overflow-hidden">
                 <table className="min-w-full leading-normal">
                     <thead>
                         <tr>
@@ -32,15 +37,31 @@ const Inventory = () => {
                     </thead>
                     <tbody>
                         {items.map(item => (
-                            <tr key={item._id}>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{item.itemName}</td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{item.category}</td>
-                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">{item.quantity} {item.unit}</td>
+                            <tr key={item._id} className="hover:bg-gray-50">
                                 <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                    <span className={`relative inline-block px-3 py-1 font-semibold leading-tight ${item.quantity < item.threshold ? 'text-red-900' : 'text-green-900'}`}>
-                                        <span aria-hidden className={`absolute inset-0 opacity-50 rounded-full ${item.quantity < item.threshold ? 'bg-red-200' : 'bg-green-200'}`}></span>
-                                        <span className="relative">{item.quantity < item.threshold ? 'Low Stock' : 'In Stock'}</span>
+                                    <p className="text-gray-900 whitespace-no-wrap font-medium">{item.itemName}</p>
+                                </td>
+                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <span className="relative inline-block px-3 py-1 font-semibold text-gray-900 leading-tight">
+                                        <span aria-hidden className="absolute inset-0 bg-gray-200 opacity-50 rounded-full"></span>
+                                        <span className="relative">{item.category}</span>
                                     </span>
+                                </td>
+                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <p className="text-gray-900 whitespace-no-wrap">{item.quantity} {item.unit}</p>
+                                </td>
+                                <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    {item.quantity < item.threshold ? (
+                                        <span className="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight">
+                                            <span aria-hidden className="absolute inset-0 bg-red-200 opacity-50 rounded-full"></span>
+                                            <span className="relative">Low Stock</span>
+                                        </span>
+                                    ) : (
+                                        <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                            <span aria-hidden className="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                            <span className="relative">In Stock</span>
+                                        </span>
+                                    )}
                                 </td>
                             </tr>
                         ))}

@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 
+// Main Layout Wrapper
+// This wraps every page with the Sidebar and the Top Header.
 const Layout = ({ children }) => {
     const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     return (
         <div className="flex bg-gray-100 min-h-screen">
+            {/* Left Sidebar */}
             <Sidebar />
+
+            {/* Main Content Area */}
             <div className="flex-1 ml-64">
-                <header className="bg-white shadow p-4 flex justify-between items-center relative">
+                {/* Top Header */}
+                <header className="bg-white shadow p-4 flex justify-between items-center relative z-10">
                     <h2 className="text-xl font-semibold text-gray-800">Hospital Management Dashboard</h2>
+
+                    {/* User Profile Section */}
                     <div className="relative">
                         <button
                             onClick={() => setIsProfileOpen(!isProfileOpen)}
@@ -21,8 +29,9 @@ const Layout = ({ children }) => {
                             </div>
                         </button>
 
+                        {/* Dropdown Menu */}
                         {isProfileOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200">
                                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Your Profile</a>
                                 <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Settings</a>
                                 <div className="border-t border-gray-100 my-1"></div>
@@ -31,6 +40,8 @@ const Layout = ({ children }) => {
                         )}
                     </div>
                 </header>
+
+                {/* Page Content */}
                 <main className="p-6">
                     {children}
                 </main>

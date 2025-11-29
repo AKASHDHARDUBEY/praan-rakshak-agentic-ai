@@ -2,24 +2,28 @@ const express = require('express');
 const router = express.Router();
 const Staff = require('../models/Staff');
 
-// GET all staff
+// GET /api/staff
+// Get a list of all staff members
 router.get('/', async (req, res) => {
     try {
-        const staff = await Staff.find();
-        res.json(staff);
+        const staffMembers = await Staff.find();
+        res.json(staffMembers);
     } catch (err) {
-        res.status(500).json({ message: err.message });
+        console.error("Error fetching staff:", err);
+        res.status(500).json({ message: 'Server Error' });
     }
 });
 
-// POST new staff
+// POST /api/staff
+// Register a new staff member
 router.post('/', async (req, res) => {
     const newStaff = new Staff(req.body);
     try {
         const savedStaff = await newStaff.save();
         res.status(201).json(savedStaff);
     } catch (err) {
-        res.status(400).json({ message: err.message });
+        console.error("Error adding staff:", err);
+        res.status(400).json({ message: 'Failed to add staff member' });
     }
 });
 
