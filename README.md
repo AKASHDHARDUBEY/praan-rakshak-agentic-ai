@@ -31,7 +31,7 @@ Praan Rakshak is an **Agentic AI-powered predictive hospital management system**
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/AKASHDHARDUBEY/praan-rakshak-agentic-ai
 cd praan-rakshak-agentic-ai
 ```
 
